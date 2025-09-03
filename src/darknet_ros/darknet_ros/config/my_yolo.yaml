@@ -1,0 +1,17 @@
+yolo_model:
+
+  config_file:
+    name: my_yolo.cfg
+  weight_file:
+    name: my_yolo_last.weights
+  threshold:
+    value: 0.8
+  detection_classes:
+    names:
+      - rod
+      - smoke
+      - bullet_proof
+      - terrorist_three
+      - terrorist_two
+      - terrorist_one
+
