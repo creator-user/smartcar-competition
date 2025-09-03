@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -std=c++11 -std=c++11  -shared  -o _ydlidar.so CMakeFiles/_ydlidar.dir/ydlidar_sdkPYTHON_wrap.cxx.o -Wl,-rpath,/home/ucar/archiconda3/lib: /home/ucar/archiconda3/lib/libpython3.7m.so ../libydlidar_sdk.a -lpthread -lrt 

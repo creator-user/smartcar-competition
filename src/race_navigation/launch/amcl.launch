@@ -1,0 +1,98 @@
+<!-- **全向运动模型（Omnidirectional Motion Model）：**
+
+**优点：**
+
+1. 全向运动模型适用于具有全向移动能力的机器人，如多轮全向移动机器人（如Mecanum轮或奇异轮）或具有全向移动底盘的移动机器人。
+2. 对于全向运动机器人，可以更准确地估计其位姿，尤其在复杂的环境中，机器人可以在任意方向上移动，能够更好地避障。
+3. 全向运动模型可以较好地处理平移和旋转运动的组合，因为它可以直接估计机器人在平移和旋转方向上的速度。
+
+**缺点：**
+
+1. 全向运动模型的状态空间较大，需要更多的粒子来获得准确的位姿估计，因此在使用粒子滤波器时，计算量会相对较大。
+2. 与差分运动模型相比，全向运动模型对噪声和不确定性更敏感，因此需要更多的传感器数据来获得稳定的位姿估计。
+3. 全向运动模型可能会在运动轨迹中产生模棱两可的情况，导致位姿估计不稳定。 -->
+
+
+<launch>
+  <!-- AMCL节点配置 -->
+  <node pkg="amcl" type="amcl" name="amcl">
+
+    <!-- 以最大10hz的频率从最佳姿势发布扫描 -->
+    <param name="gui_publish_rate" value="10.0"/>
+
+    <!-- 运动模型参数 -->
+    <!-- odom_model_type参数设置为omni，表示使用全向运动模型来估计机器人的位姿。 -->
+    <param name="odom_model_type" value="omni"/>
+    <!-- 用于更新全向运动模型的协方差矩阵的参数 -->
+    <param name="odom_alpha1" value="0.2"/>
+    <param name="odom_alpha2" value="0.2"/>
+    <!-- 平移方向的标准差，单位：米 -->
+    <param name="odom_alpha3" value="0.8"/>
+    <param name="odom_alpha4" value="0.2"/>
+    <!-- 方向角的标准差，单位：弧度 -->
+    <param name="odom_alpha5" value="0.1"/>
+
+    <!-- 激光束模型参数 -->
+    <!-- 设置激光传感器模型的类型为beam，表示使用激光束模型来估计机器人的位姿。 -->
+    <param name="laser_model_type" value="beam"/>
+    <!-- <param name="laser_model_type" value="likelihood_field"/> -->
+    <!-- 用于设置激光传感器数据的最大束束数。AMCL节点使用激光传感器数据来进行自我定位 -->
+    <param name="laser_max_beams" value="50"/>
+    <!-- 用于激光束模型的参数，用于估计激光数据的权重。 -->
+    <param name="laser_z_hit" value="0.5"/>
+    <!-- 激光束模型参数：击中概率权重 -->
+    <param name="laser_z_short" value="0.05"/>
+    <!-- 激光束模型参数：短读数概率权重 -->
+    <param name="laser_z_max" value="0.05"/>
+    <!-- 激光束模型参数：最大读数概率权重 -->
+    <param name="laser_z_rand" value="0.5"/>
+    <!-- 激光束模型参数：随机读数概率权重 -->
+    <param name="laser_sigma_hit" value="0.2"/>
+    <!-- 激光束模型参数：激光击中的高斯噪声标准差 -->
+    <param name="laser_lambda_short" value="0.1"/>
+    <!-- 激光束模型参数：激光短读数的指数衰减参数 -->
+    <param name="laser_likelihood_max_dist" value="2.0"/>
+    <!-- 激光束模型参数：激光击中的最大距离 -->
+
+    <!-- 粒子滤波器参数 -->
+    <param name="min_particles" value="1000"/>
+    <!-- 粒子滤波器的最小粒子数量 -->
+    <param name="max_particles" value="10000"/>
+    <!-- 粒子滤波器的最大粒子数量 -->
+    <param name="kld_err" value="0.05"/>
+    <!-- 控制自适应采样的误差阈值 -->
+    <param name="kld_z" value="0.99"/>
+    <!-- 控制自适应采样的z值阈值 -->
+
+    <!-- 更新和重采样参数 -->
+    <!-- 用于设置定位更新的最小距离和最小角度 -->
+    <param name="update_min_d" value="0.2"/>
+    <param name="update_min_a" value="0.5"/>
+    <!-- 用于设置重采样的间隔 -->
+    <param name="resample_interval" value="1"/>
+
+    <!-- 里程计和坐标系参数 -->
+    <!-- 用于设置里程计（odometry）数据的参考坐标系ID。在这里，设置为odom，表示里程计数据以odom坐标系为参考。 -->
+    <param name="odom_frame_id" value="odom"/>
+    <!-- <param name="odom_frame_id" value="odom"/> -->
+    <!-- <param name="base_frame_id" value="base_link"/> -->
+    <!-- <param name="global_frame_id" value="map"/> -->
+    <!-- <param name="scan_frame_id" value="laser_frame"/> -->
+    <!-- <param name="scan_topic" value="scan"/> -->
+    <!-- <remap from="scan" to="lidar/scan"/> -->
+
+    <!-- 其他参数 -->
+    <!-- 当设置为false时，AMCL将会订阅map话题，而不是调用服务返回地图。
+         当设置为true时，有另外一个节点实时地发布map话题，机器人实时构建地图供AMCL使用。 -->
+    <param name="use_map_topic" value="false"/>
+    <!-- 当设置为true时，AMCL将仅仅使用订阅的第一个地图，而不是每次接收到新的地图时更新。 -->
+    <param name="first_map_only" value="true"/>
+    <!-- 坐标变换的时间容差，单位：秒 -->
+    <param name="transform_tolerance" value="0.1"/>
+    <!-- 用于控制在自适应蒙特卡洛定位过程中的缓慢恢复行为 -->
+    <param name="recovery_alpha_slow" value="0.0"/>
+    <!-- 用于控制在自适应蒙特卡洛定位过程中的快速恢复行为 -->
+    <param name="recovery_alpha_fast" value="0.0"/>
+
+  </node>
+</launch>

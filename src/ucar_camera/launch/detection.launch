@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="ucar_camera" type="oneshell.py" name="ucar_camera" output="screen">
+    <param name="device_path" type="string"  value="/dev/video0" />
+    <param name="image_height" type="int"  value="480" />
+    <param name="image_width" type="int"  value="640" />
+  </node>
+</launch>

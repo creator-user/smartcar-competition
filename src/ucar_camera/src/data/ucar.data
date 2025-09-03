@@ -1,0 +1,4 @@
+classes = 29
+train = data/train_list.txt
+valid = data/val_list.txt
+names = data/labels.names

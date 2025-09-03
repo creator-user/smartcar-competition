@@ -1,0 +1,9 @@
+<launch>
+  <include file="$(find darknet_ros)/launch/detect.launch" />
+  <include file="$(find main)/launch/teb_navigation.launch" />
+  <include file="$(find voice_test)/launch/voice_test.launch" />
+  <node  pkg="darknet_ros"  type="get_num" name="get_num"  output="screen">  </node> 
+  <!-- <node  pkg="darknet_ros"  type="detection_listener" name="detection_listener"  output="screen">  </node>  -->
+  <node  pkg="darknet_ros"  type="tr" name="tr"  output="screen">  </node>
+  <!--  -->
+</launch> 

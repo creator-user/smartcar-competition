@@ -1,0 +1,27 @@
+<launch>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+    <!-- <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" /> -->
+
+    <rosparam file="$(find race_navigation)/config/teb/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find race_navigation)/config/teb/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find race_navigation)/config/teb/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find race_navigation)/config/teb/global_costmap_params.yaml" command="load" />
+
+    <rosparam file="$(find race_navigation)/config/teb/move_base_params.yaml" command="load" />
+    <rosparam file="$(find race_navigation)/config/teb/base_global_planner_params.yaml" command="load" />
+    <rosparam file="$(find race_navigation)/config/teb/teb_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find race_navigation)/config/teb/costmap_converter_params.yaml" command="load" />
+  
+    <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+    <param name="planner_frequency" value="10.0" />
+    <param name="planner_patience" value="2" />
+    <param name="use_dijkstra" value="true" />
+    
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+    <param name="controller_frequency" value="15.0" />
+    <param name="controller_patience" value="10.0" />
+    <param name="clearing_rotation_allowed" value="true" />
+  </node>
+  
+</launch>

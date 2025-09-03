@@ -1,0 +1,21 @@
+<launch>
+    <!-- 底盘控制：base_driver -->
+    <include file="$(find ucar_controller)/launch/base_driver.launch" > </include>
+
+    <!-- 雷达控制：ydlidar -->
+    <include file="$(find ydlidar_ros_driver)/launch/ydlidar.launch" > </include>
+    
+    <!-- 设置地图的配置文件 -->
+    <arg name="map" default="map712.yaml" />
+
+    <!-- 运行地图服务器，并且加载设置的地图-->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find race_navigation)/maps/$(arg map)">
+    <param name="frame_id" value="map" />
+    </node>
+
+    <!-- 运行move_base节点 -->
+    <include file="$(find race_navigation)/launch/teb_base.launch"/>
+
+    <!-- 启动AMCL节点 -->
+    <include file="$(find race_navigation)/launch/amcl.launch" /> 
+</launch>
