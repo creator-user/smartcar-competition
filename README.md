@@ -4,24 +4,6 @@
 ## 项目结构
 ```
 smartcar-competition/
-├── nano_flash/ # Nano 开发板刷机脚本与配置
-│ ├── flash_all.sh
-├── src/ # ROS 工作空间源码
-│ ├── darknet_ros/ # 目标检测
-│ ├── teb_local_planner/ # 路径规划
-│ ├── vision_opencv/ # OpenCV 封装
-│ ├── ang_line_follow/ # 循迹控制
-│ ├── line_follower/ # 循迹控制
-│ ├── ucar_controller/ # 底盘控制
-│ ├── ucar_nav/ # 导航
-│ ├── ucar_map/ # 地图
-│ ├── race_navigation/ # 竞赛导航策略
-│ ├── vision/ # 路径跟随脚本
-│ └── YDLidar-SDK/ # 激光雷达驱动
-├── 
-└── README.md
-
-smartcar-competition/
 ├── nano_flash/ # Jetson Nano 刷机与配置脚本
 │ ├── flash_all.sh
 │ ├── flash_config
