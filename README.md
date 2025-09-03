@@ -2,7 +2,7 @@
 全国大学生智能汽车竞赛项目代码文件
 
 ## 项目结构
-'''
+```
 smartcar-competition/
 ├── nano_flash/ # Nano 开发板刷机脚本与配置
 │ ├── flash_all.sh
@@ -22,4 +22,4 @@ smartcar-competition/
 ├── scripts/ # 启动与测试脚本
 ├── docs/ # 文档资料
 └── README.md
-'''
+```
